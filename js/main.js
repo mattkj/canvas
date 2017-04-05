@@ -6,6 +6,7 @@ const ctx = canvas.getContext('2d');
 ctx.lineJoin = 'round';
 ctx.lineCap = 'round';
 ctx.lineWidth = 10;
+ctx.globalCompositeOperation = 'lighten';
 
 let direction = true;
 let hue = 0;
