@@ -14,29 +14,7 @@ let isDrawing = false;
 let lastX = 0;
 let lastY = 0;
 
-function draw(e) {
-  if (!isDrawing) return;
-  // console.log(e);
-  ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
-  ctx.beginPath();
-  ctx.moveTo(lastX, lastY);
-
-  if (e.type === 'touchmove') {
-    ctx.lineTo(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
-  } else {
-    ctx.lineTo(e.offsetX, e.offsetY);
-  }
-
-  ctx.stroke();
-
-  if (e.type === 'touchmove') {
-    [lastX, lastY] = [e.targetTouches[0].clientX, e.targetTouches[0].clientY];
-  } else {
-    [lastX, lastY] = [e.offsetX, e.offsetY];
-  }
-
-  hue++;
-
+function setLineWidth(){
   if (ctx.lineWidth >= 50 || ctx.lineWidth <= 1) {
     direction = !direction;
   }
@@ -46,6 +24,41 @@ function draw(e) {
   } else {
     ctx.lineWidth--;
   }
+}
+
+function setStrokeStyle(){
+  ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+  hue++;
+}
+
+function setLineTo(e){
+  if (e.type === 'touchmove') {
+    ctx.lineTo(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+  } else {
+    ctx.lineTo(e.offsetX, e.offsetY);
+  }
+}
+
+function updatePosition(e){
+   if (e.type === 'touchmove') {
+    [lastX, lastY] = [e.targetTouches[0].clientX, e.targetTouches[0].clientY];
+  } else {
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+  }
+}
+
+function draw(e) {
+  if (!isDrawing) return;
+  
+  setStrokeStyle();
+  setLineWidth();
+  
+  ctx.beginPath();
+  ctx.moveTo(lastX, lastY);
+  setLineTo(e);
+  ctx.stroke();
+
+  updatePosition(e);
 }
 
 document.addEventListener('mousemove', draw);
