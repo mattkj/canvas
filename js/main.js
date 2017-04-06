@@ -64,7 +64,7 @@ function draw(e) {
 document.addEventListener('mousemove', draw);
 document.addEventListener('mousedown', (e) => {
   isDrawing = true;
-  [lastX, lastY] = [e.offsetX, e.offsetY];
+  updatePosition(e);
 });
 document.addEventListener('mouseup', () => isDrawing = false);
 document.addEventListener('mouseout', () => isDrawing = false);
@@ -72,7 +72,7 @@ document.addEventListener('mouseout', () => isDrawing = false);
 document.addEventListener('touchmove', draw);
 document.addEventListener('touchstart', (e) => {
   isDrawing = true;
-  [lastX, lastY] = [e.targetTouches[0].clientX, e.targetTouches[0].clientY];
+  updatePosition(e);
 });
 document.addEventListener('touchend', () => isDrawing = false);
 document.addEventListener('touchleave', () => isDrawing = false);
